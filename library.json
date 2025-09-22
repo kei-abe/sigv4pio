@@ -1,0 +1,36 @@
+{
+    "name": "sigv4pio",
+    "version": "0.1.0",
+    "description": "AWS sigv4 utils with mbedTLS for platformio development",
+    "keywords": [
+        "sigv4pio",
+        "aws",
+        "sigv4",
+        "mbedtls",
+        "platformio"
+    ],
+    "homepage": "https://github.com/kei-abe/sigv4pio",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/kei-abe/sigv4pio.git"
+    },
+    "authors": [
+        {
+            "name": "Keisuke Abe"
+        }
+    ],
+    "frameworks": [
+        "*"
+    ],
+    "platforms": [
+        "*"
+    ],
+    "export": {
+        "include": [
+            "src",
+            "include",
+            "library.json",
+            "README.md"
+        ]
+    }
+}
