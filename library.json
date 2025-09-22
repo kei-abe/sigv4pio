@@ -1,6 +1,6 @@
 {
     "name": "sigv4pio",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "AWS sigv4 utils with mbedTLS for platformio development",
     "keywords": [
         "sigv4pio",
