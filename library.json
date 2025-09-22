@@ -19,18 +19,7 @@
             "name": "Keisuke Abe"
         }
     ],
-    "frameworks": [
-        "*"
-    ],
-    "platforms": [
-        "*"
-    ],
-    "export": {
-        "include": [
-            "src",
-            "include",
-            "library.json",
-            "README.md"
-        ]
-    }
+    "license": "MIT",
+    "frameworks": "*",
+    "platforms": "*"
 }
