@@ -12,7 +12,18 @@
 struct CredentialScope {
   std::string credential_scope;
 
-  CredentialScope(const std::string& date, const std::string& aws_region, const std::string& aws_service) : credential_scope(date + "/" + aws_region + "/" + aws_service + "/aws4_request") {}
+  CredentialScope(const std::string& date, const std::string& aws_region, const std::string& aws_service) {
+    // Pre-calculate total size for efficient concatenation
+    size_t total_size = date.size() + 1 + aws_region.size() + 1 + aws_service.size() + 13;  // "/aws4_request"
+    credential_scope.reserve(total_size);
+
+    credential_scope = date;
+    credential_scope += "/";
+    credential_scope += aws_region;
+    credential_scope += "/";
+    credential_scope += aws_service;
+    credential_scope += "/aws4_request";
+  }
 
   operator std::string() const { return credential_scope; }
 };
@@ -29,8 +40,19 @@ class StringToSign {
  public:
   StringToSign(const std::string& algorithm, const std::string& request_datetime, const CredentialScope& credential_scope, const std::array<uint8_t, 32>& hashed_canonical_request) {
     std::string hash_string = hex_dump(hashed_canonical_request);
+    std::string credential_str = credential_scope;
 
-    string_to_sign = algorithm + "\n" + request_datetime + "\n" + std::string(credential_scope) + "\n" + hash_string;
+    size_t total_size = algorithm.size() + 1 + request_datetime.size() + 1 + credential_str.size() + 1 + hash_string.size();
+
+    string_to_sign.reserve(total_size);
+
+    string_to_sign = algorithm;
+    string_to_sign += "\n";
+    string_to_sign += request_datetime;
+    string_to_sign += "\n";
+    string_to_sign += credential_str;
+    string_to_sign += "\n";
+    string_to_sign += hash_string;
   }
 
   operator std::string() const { return string_to_sign; }

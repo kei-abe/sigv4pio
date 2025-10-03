@@ -5,14 +5,21 @@
  */
 #pragma once
 
-#include <iomanip>
-#include <sstream>
+#include <array>
 #include <string>
 
 inline std::string hex_dump(const std::array<uint8_t, 32>& arr) {
-  std::ostringstream oss;
-  for (const auto& c : arr) {
-    oss << std::hex << std::setw(2) << std::setfill('0') << (int)c;
+  static const char hex_chars[] = "0123456789abcdef";
+
+  // fixed size buffer
+  std::string result;
+  result.reserve(64);
+
+  // convert to hex
+  for (const auto& byte : arr) {
+    result += hex_chars[(byte >> 4) & 0x0F];
+    result += hex_chars[byte & 0x0F];
   }
-  return oss.str();
+
+  return result;
 }
