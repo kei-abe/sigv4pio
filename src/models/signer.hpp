@@ -10,6 +10,7 @@
 #include <array>
 #include <string>
 
+#include "../constants.hpp"
 #include "StringToSign.hpp"
 
 class Signer {
@@ -28,12 +29,16 @@ class Signer {
 
  public:
   Signer(const std::string& secret_access_key, const std::string& amz_date, const std::string& aws_region, const std::string& aws_service) {
-    const std::string AWS4 = "AWS4" + secret_access_key;
+    // constexpr定数を使用した効率的な連結
+    std::string AWS4;
+    AWS4.reserve(sigv4pio::AWS4_PREFIX_SIZE + secret_access_key.size());
+    AWS4 = sigv4pio::AWS4_PREFIX;
+    AWS4 += secret_access_key;
 
     auto DateKey = hamc_sha256(AWS4, amz_date);
     auto DateRegionKey = hamc_sha256(DateKey, aws_region);
     auto DateRegionServiceKey = hamc_sha256(DateRegionKey, aws_service);
-    signing_key = hamc_sha256(DateRegionServiceKey, "aws4_request");
+    signing_key = hamc_sha256(DateRegionServiceKey, sigv4pio::AWS4_REQUEST);
   }
   std::array<uint8_t, 32> sign(const StringToSign& string_to_sign) { return hamc_sha256(signing_key, string_to_sign); };
 
