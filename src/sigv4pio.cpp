@@ -10,7 +10,7 @@ namespace sigv4pio {
 std::string presign_url(const std::string& access_key, const std::string& secret_access_key, const std::string& x_amz_security_token, const std::string& bucket, const std::string& object,
                         const std::string& aws_region, const std::string& x_amz_datetime, const std::string& x_amz_expires) {
   size_t date_index = x_amz_datetime.find("T");
-  std::string date(x_amz_datetime.data(), date_index);
+  std::string date = x_amz_datetime.substr(0, date_index);
 
   // constexpr定数を使用してコンパイル時最適化
   std::string host = bucket + S3_DOMAIN_SUFFIX;
