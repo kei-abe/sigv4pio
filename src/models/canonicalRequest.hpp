@@ -42,7 +42,7 @@ struct CanonicalQueryString {
       } else {
         buf += '%';
         buf += hex[(c >> 4) & 15];
-        buf += hex[c & 15];
+        buf += hex[c & 0x0F];
       }
     }
 
