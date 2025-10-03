@@ -13,7 +13,7 @@ struct CredentialScope {
   std::string credential_scope;
 
   CredentialScope(const std::string& date, const std::string& aws_region, const std::string& aws_service) {
-    // 事前サイズ計算して効率的な連結
+    // Pre-calculate total size for efficient concatenation
     size_t total_size = date.size() + 1 + aws_region.size() + 1 + aws_service.size() + 13;  // "/aws4_request"
     credential_scope.reserve(total_size);
 
