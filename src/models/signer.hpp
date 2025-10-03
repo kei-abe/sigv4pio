@@ -29,7 +29,7 @@ class Signer {
 
  public:
   Signer(const std::string& secret_access_key, const std::string& amz_date, const std::string& aws_region, const std::string& aws_service) {
-    // constexpr定数を使用した効率的な連結
+    // Efficient concatenation using constexpr constants
     std::string AWS4;
     AWS4.reserve(sigv4pio::AWS4_PREFIX_SIZE + secret_access_key.size());
     AWS4 = sigv4pio::AWS4_PREFIX;
