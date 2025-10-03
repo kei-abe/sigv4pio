@@ -41,7 +41,7 @@ std::string presign_url(const std::string& access_key, const std::string& secret
   std::string query_string = canonical_request.get_query_string();
   std::string signature_hex = hex_dump(signature);
 
-  // constexpr定数を使用した効率的な連結
+  // Efficient concatenation using constexpr constants
   size_t url_size = HTTPS_PREFIX_SIZE + host.size() + object.size() + 1 + query_string.size() + 17 + signature_hex.size();
 
   std::string presigned_url;
