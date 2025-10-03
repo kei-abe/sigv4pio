@@ -122,12 +122,7 @@ class CanonicalRequest {
  public:
   CanonicalRequest(const std::string& method, const std::string& canonical_uri, const CanonicalQueryString& canonical_query_string, const CanonicalHeaders& canonical_headers,
                    const std::string& signed_headers, const std::string& hashed_payload) {
-    canonical_request = method;
-    canonical_request += "\n" + canonical_uri;
-    canonical_request += "\n" + canonical_query_string.query_string;
-    canonical_request += "\n" + canonical_headers.canonical_headers;
-    canonical_request += "\n" + signed_headers;
-    canonical_request += "\n" + hashed_payload;
+    canonical_request = method + "\n" + canonical_uri + "\n" + canonical_query_string.query_string + "\n" + canonical_headers.canonical_headers + "\n" + signed_headers + "\n" + hashed_payload;
 
     query_string = canonical_query_string.query_string;
 
