@@ -18,7 +18,7 @@ std::string presign_url(const std::string& access_key, const std::string& secret
       "GET",
       object,
       CanonicalQueryString(access_key, x_amz_datetime, aws_region, "s3", x_amz_expires, "host", x_amz_security_token),
-      CanonicalHeaders(bucket + ".s3.amazonaws.com", "", "", ""),
+      CanonicalHeaders(host, "", "", ""),
       "host",
       "UNSIGNED-PAYLOAD",
   });
@@ -35,8 +35,21 @@ std::string presign_url(const std::string& access_key, const std::string& secret
 
   std::array<uint8_t, 32> signature = signer.sign(string_to_sign);
 
-  // 3. Adding this signature to the request as an Authorization header.
-  std::string presigned_url = "https://" + host + object + "?" + canonical_request.get_query_string() + "&X-Amz-Signature=" + hex_dump(signature);
+  // 3. Create a presigned url
+  std::string query_string = canonical_request.get_query_string();
+  std::string signature_hex = hex_dump(signature);
+
+  size_t url_size = 8 + host.size() + object.size() + 1 + query_string.size() + 17 + signature_hex.size();
+
+  std::string presigned_url;
+  presigned_url.reserve(url_size);
+  presigned_url = "https://";
+  presigned_url += host;
+  presigned_url += object;
+  presigned_url += "?";
+  presigned_url += query_string;
+  presigned_url += "&X-Amz-Signature=";
+  presigned_url += signature_hex;
 
   return presigned_url;
 }
